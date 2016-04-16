@@ -41,7 +41,7 @@ public class TextParser {
         Map<String, String> map = new HashMap<String, String>();
 
         try {
-            // Set testing data file
+            // Set input data file
             BufferedReader br = new BufferedReader(new FileReader("input/Indonesian_Manually_Tagged_Corpus_ID.tsv"));
             // Set output data file
             File file = new File("output/Indonesian_Manually_Tagged_Corpus_ID_Text.tsv");
@@ -97,7 +97,7 @@ public class TextParser {
         String sCurrentLine;
 
         try {
-            // Set testing data file
+            // Set input data file
             BufferedReader br = new BufferedReader(new FileReader("input/Indonesian_Manually_Tagged_Corpus_ID.tsv"));
             // Set output data file
             File file = new File("output/Indonesian_Manually_Tagged_Corpus_ID_Edit.tsv");
@@ -149,11 +149,11 @@ public class TextParser {
         Map<String, String> map = new HashMap<String, String>();
 
         try {
-            // Set testing data file
+            // Set input data file
             BufferedReader br = new BufferedReader(new FileReader("input/Indonesian_Manually_Tagged_Corpus_ID.tsv"));
-            // Set output data file, 1000 sentence which will be tagged
+            // Set output data file, 1000 sentence which will be tagged and tested
             File file = new File("output/Indonesian_Manually_Tagged_Corpus_ID_Final.tsv");
-            // Set output data file, 9030 sentence which will be trained
+            // Set output data file, 9030 sentence which will be trained into a model
             File file2 = new File("output/Indonesian_Manually_Tagged_Corpus_ID_Model.tsv");
 
             FileWriter fw = new FileWriter(file.getAbsoluteFile());
