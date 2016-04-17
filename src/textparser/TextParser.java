@@ -25,8 +25,8 @@ import java.util.regex.Pattern;
 public class TextParser {
 
     /**
-     * Mapping is a method to store input (corpus) to hashmap then 
-     * write all sentence without tag to output file
+     * Mapping is a method to store input (corpus) to hashmap then write all
+     * sentence without tag to output file
      */
     public void mapping() {
         // Set pattern regex to read tag <kalimat id=num>X</kalimat>
@@ -82,9 +82,9 @@ public class TextParser {
             e.printStackTrace();
         }
     }
-    
+
     /**
-     * removeTag is a method to remove all tag "<kalimat id=num>x</kalimat>" 
+     * removeTag is a method to remove all tag "<kalimat id=num>x</kalimat>"
      * from input (corpus), so that it can be read and trained into model tagger
      */
     public void removeTag() {
@@ -110,7 +110,7 @@ public class TextParser {
                 String temp = sCurrentLine;
                 aTag.reset(sCurrentLine);
                 eTag.reset(sCurrentLine);
-                
+
                 // If it matches the regex "<kalimat id=num>" do nothing, if it matches 
                 // "</kalimat>" write new line into output file. Else insert data to map 
                 // write currentdata to output file
@@ -131,9 +131,9 @@ public class TextParser {
         }
 
     }
-    
+
     /**
-     * parsing is a method to separate 1000 sentence of 10000 sentence of
+     * parsing is a method to separate 1000 sentence of 10000 sentence from
      * corpus. It separate randomly because of HashMap data structure
      */
     public void parsing() {
@@ -166,7 +166,7 @@ public class TextParser {
                 String temp = sCurrentLine;
                 aTag.reset(sCurrentLine);
                 eTag.reset(sCurrentLine);
-                
+
                 // Set id if it matches the regex "<kalimat id=num>", if it matches "</kalimat>"
                 // do nothing. Else insert data to map with id and value
                 if (aTag.find()) {
@@ -208,15 +208,66 @@ public class TextParser {
         }
 
     }
+    
+    /**
+     * parsing is a method to separate 50 sentence of 300 sentence of
+     * corpus. It separate randomly because of HashMap data structure
+     */
+    public void treeParsing() {
+        
+        String sCurrentLine;
+        // Data Structure used to store all treebank
+        Map<Integer, String> map = new HashMap<Integer, String>();
+        
+        try {
+            // Set input data file
+            BufferedReader br = new BufferedReader(new FileReader("input/150324.001-300.bracket"));
+            // Set output data file, 50 sentence which will be parsed and tested
+            File file = new File("output/treebanktest.bracket");
+            File file2 = new File("output/treebank.bracket");
+
+            FileWriter fw = new FileWriter(file.getAbsoluteFile());
+            FileWriter fw2 = new FileWriter(file2.getAbsoluteFile());
+            BufferedWriter bw = new BufferedWriter(fw);
+            BufferedWriter bw2 = new BufferedWriter(fw2);
+            int id = 0;
+            // Read line text
+            while ((sCurrentLine = br.readLine()) != null) {
+                map.put(id, sCurrentLine);
+                id++;
+            }
+
+            int i = 0;
+            Iterator<Map.Entry<Integer, String>> iter = map.entrySet().iterator();
+            // Looping to separate 50 sentences from hashmap then write into
+            // output/treebanktest.bracket and all the
+            // rest of sentences to treebank.bracket
+            while (iter.hasNext()) {
+                Map.Entry<Integer, String> entry = iter.next();
+                if (i < 50) {
+                    bw.write(entry.getValue() + "\n");
+                    iter.remove();
+                    i++;
+                } else {
+                    bw2.write(entry.getValue() + "\n");
+                }
+            }
+
+            bw.close();
+            bw2.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
 
     /**
      * @param args the command line arguments
      */
     public static void main(String[] args) {
         TextParser test = new TextParser();
-        test.removeTag();
-        test.mapping();
-        test.parsing();
+        //test.removeTag();
+        //test.mapping();
+        test.treeParsing();
     }
 
 }
